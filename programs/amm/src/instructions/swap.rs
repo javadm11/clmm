@@ -141,6 +141,9 @@ pub fn swap_internal<'b, 'info>(
     if !pool_state.get_status_by_bit(PoolStatusBitIndex::Swap) {
         return err!(ErrorCode::NotApproved);
     }
+    msg!("zero_for_one {:#?}",zero_for_one);
+    msg!("sqrt_price_limit_x64 {:#?}",sqrt_price_limit_x64);
+    msg!("pool_state.sqrt_price_x64 {:#?}",pool_state);
     require!(
         if zero_for_one {
             sqrt_price_limit_x64 < pool_state.sqrt_price_x64
@@ -174,20 +177,25 @@ pub fn swap_internal<'b, 'info>(
 
     // check observation account is owned by the pool
     require_keys_eq!(observation_state.pool_id, pool_state.key());
-
+    msg!("ali behrouz!");
+    // msg!("tickarray_bitmap_extension: {:#?}", tickarray_bitmap_extension);
+    msg!("cosi driver");
     let (mut is_match_pool_current_tick_array, first_vaild_tick_array_start_index) =
         pool_state.get_first_initialized_tick_array(&tickarray_bitmap_extension, zero_for_one)?;
     let mut current_vaild_tick_array_start_index = first_vaild_tick_array_start_index;
-
+    msg!("hossein kasiri");
+    msg!("tick_array_states {:#?}",tick_array_states.iter().len());
     let mut tick_array_current = tick_array_states.pop_front().unwrap();
     // find the first active tick array account
     for _ in 0..tick_array_states.len() {
         if tick_array_current.start_tick_index == current_vaild_tick_array_start_index {
             break;
         }
+        msg!("kos 1");
         tick_array_current = tick_array_states
             .pop_front()
             .ok_or(ErrorCode::NotEnoughTickArrayAccount)?;
+        msg!("kos 2");
     }
     // check the first tick_array account is owned by the pool
     require_keys_eq!(tick_array_current.pool_id, pool_state.key());
@@ -629,6 +637,7 @@ pub fn exact_internal<'b, 'c: 'info, 'info>(
             amount_0,
             amount_1
         );
+        msg!("kir to hamid!!!");
         require!(
             amount_0 != 0 && amount_1 != 0,
             ErrorCode::TooSmallInputOrOutputAmount

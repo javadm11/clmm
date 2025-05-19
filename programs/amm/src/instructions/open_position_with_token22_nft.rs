@@ -154,6 +154,7 @@ pub fn open_position_with_token22_nft<'a, 'b, 'c: 'info, 'info>(
     with_metadata: bool,
     base_flag: Option<bool>,
 ) -> Result<()> {
+    msg!("kir");
     create_position_nft_mint_with_extensions(
         &ctx.accounts.payer,
         &ctx.accounts.position_nft_mint,
@@ -163,6 +164,14 @@ pub fn open_position_with_token22_nft<'a, 'b, 'c: 'info, 'info>(
         &ctx.accounts.token_program_2022,
         with_metadata,
     )?;
+    msg!("kiiiiir");
+    msg!("accounts.associated_token_program{:#?}",ctx.accounts.associated_token_program.to_account_info());
+    msg!("payer {:#?}",ctx.accounts.payer.to_account_info());
+    msg!("associated_token {:#?}" ,ctx.accounts.position_nft_account.to_account_info());
+    msg!("authority {:#?}",ctx.accounts.position_nft_owner.to_account_info());
+    msg!("mint {:#?}",ctx.accounts.position_nft_mint.to_account_info());
+    msg!("system_program {:#?}",ctx.accounts.system_program.to_account_info());
+    msg!("token_program {:#?}",ctx.accounts.token_program_2022.to_account_info());
 
     // create user position nft account
     create(CpiContext::new(
@@ -176,6 +185,7 @@ pub fn open_position_with_token22_nft<'a, 'b, 'c: 'info, 'info>(
             token_program: ctx.accounts.token_program_2022.to_account_info(),
         },
     ))?;
+    msg!("tooo many kir");
 
     open_position(
         &ctx.accounts.payer,

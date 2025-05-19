@@ -259,23 +259,38 @@ pub fn open_position<'a, 'b, 'c: 'info, 'info>(
     base_flag: Option<bool>,
     use_metadata_extension: bool,
 ) -> Result<()> {
+    msg!("liquidity: {:#?}", liquidity);
+    msg!("amount_0_max: {:#?}", amount_0_max);
+    msg!("amount_1_max: {:#?}", amount_1_max);
+    msg!("tick_lower_index: {:#?}", tick_lower_index);
+    msg!("tick_upper_index: {:#?}", tick_upper_index);
+    msg!("tick_array_lower_start_index: {:#?}", tick_array_lower_start_index);
+    msg!("tick_array_upper_start_index: {:#?}", tick_array_upper_start_index);
+    msg!("with_metadata: {:#?}", with_metadata);
+    msg!("base_flag: {:#?}", base_flag);
+    msg!("use_metadata_extension: {:#?}", use_metadata_extension);
     let mut liquidity = liquidity;
     {
+        msg!("kkkk 1111");
         let pool_state = &mut pool_state_loader.load_mut()?;
         if !pool_state.get_status_by_bit(PoolStatusBitIndex::OpenPositionOrIncreaseLiquidity) {
             return err!(ErrorCode::NotApproved);
         }
+        msg!("kkkk 2222");
         check_ticks_order(tick_lower_index, tick_upper_index)?;
+        msg!("kkkk 3333");
         check_tick_array_start_index(
             tick_array_lower_start_index,
             tick_lower_index,
             pool_state.tick_spacing,
         )?;
+        msg!("kkkk 4444");
         check_tick_array_start_index(
             tick_array_upper_start_index,
             tick_upper_index,
             pool_state.tick_spacing,
         )?;
+        msg!("kkkk 5555");
 
         // Why not use anchor's `init-if-needed` to create?
         // Beacuse `tick_array_lower` and `tick_array_upper` can be the same account, anchor can initialze tick_array_lower but it causes a crash when anchor to initialze the `tick_array_upper`,
@@ -288,6 +303,7 @@ pub fn open_position<'a, 'b, 'c: 'info, 'info>(
             tick_array_lower_start_index,
             pool_state.tick_spacing,
         )?;
+        msg!("kkkk 6666");
 
         let tick_array_upper_loader =
             if tick_array_lower_start_index == tick_array_upper_start_index {
@@ -302,6 +318,7 @@ pub fn open_position<'a, 'b, 'c: 'info, 'info>(
                     pool_state.tick_spacing,
                 )?
             };
+        msg!("kkkk 7777");    
 
         // check if protocol position is initialized
         let protocol_position = protocol_position.deref_mut();
@@ -319,11 +336,13 @@ pub fn open_position<'a, 'b, 'c: 'info, 'info>(
                 .get_tick_state_mut(tick_upper_index, pool_state.tick_spacing)?
                 .tick = tick_upper_index;
         }
+        msg!("kkkk 8888");
 
         let use_tickarray_bitmap_extension = pool_state.is_overflow_default_tickarray_bitmap(vec![
             tick_array_lower_start_index,
             tick_array_upper_start_index,
         ]);
+        msg!("kkkk 9999");
 
         let (amount_0, amount_1, amount_0_transfer_fee, amount_1_transfer_fee) = add_liquidity(
             payer,
@@ -355,6 +374,7 @@ pub fn open_position<'a, 'b, 'c: 'info, 'info>(
             tick_upper_index,
             base_flag,
         )?;
+        
 
         // let personal_position = &mut personal_position;
         personal_position.bump = [personal_position_bump];

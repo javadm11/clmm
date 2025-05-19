@@ -128,18 +128,22 @@ pub fn exact_internal_v2<'c: 'info, 'info>(
         let tick_array_states = &mut VecDeque::new();
 
         let tick_array_bitmap_extension_key = TickArrayBitmapExtension::key(pool_state.key());
+        msg!("tick_array_bitmap_extension_key {:#?}",tick_array_bitmap_extension_key);
         for account_info in remaining_accounts.into_iter() {
+            msg!(" only for  mader jende");
             if account_info.key().eq(&tick_array_bitmap_extension_key) {
+                msg!("for if mader jende");
                 tickarray_bitmap_extension = Some(
                     *(AccountLoader::<TickArrayBitmapExtension>::try_from(account_info)?
                         .load()?
                         .deref()),
                 );
+                // msg!("each  tickarray_bitmap_extension {:#?}",tickarray_bitmap_extension);
                 continue;
             }
             tick_array_states.push_back(AccountLoad::load_data_mut(account_info)?);
         }
-
+        msg!("khanom jadidi !@!@!@!@!@@@@@@@@@");
         (amount_0, amount_1) = swap_internal(
             &ctx.amm_config,
             pool_state,
@@ -160,6 +164,7 @@ pub fn exact_internal_v2<'c: 'info, 'info>(
             is_base_input,
             oracle::block_timestamp(),
         )?;
+        msg!("arash zareh");
 
         #[cfg(feature = "enable-log")]
         msg!(

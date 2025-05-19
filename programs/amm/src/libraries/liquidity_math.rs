@@ -192,6 +192,9 @@ pub fn get_delta_amount_0_unsigned(
             .unwrap()
             / U256::from(sqrt_ratio_a_x64)
     };
+    msg!("sadegh ahmadlou");
+    msg!("result {:#?}",result);
+    msg!("MAX {:#?}",U256::from(u64::MAX));
     if result > U256::from(u64::MAX) {
         return Err(ErrorCode::MaxTokenOverflow.into());
     }
@@ -235,6 +238,10 @@ pub fn get_delta_amount_0_signed(
     sqrt_ratio_b_x64: u128,
     liquidity: i128,
 ) -> Result<u64> {
+    msg!("sinus is here!");
+    msg!("sqrt_ratio_a_x64 {:#?} ",sqrt_ratio_a_x64);
+    msg!("sqrt_ratio_b_x64 {:#?} ",sqrt_ratio_b_x64);
+    msg!("liquidity {:#?} ",liquidity);
     if liquidity < 0 {
         get_delta_amount_0_unsigned(
             sqrt_ratio_a_x64,

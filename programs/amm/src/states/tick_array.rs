@@ -234,6 +234,9 @@ impl TickArrayState {
     }
 
     pub fn check_is_valid_start_index(tick_index: i32, tick_spacing: u16) -> bool {
+        msg!("ttttttttttttt");
+        msg!("tick_index , {:#?}", tick_index);
+        msg!("tick_math::MAX_TICK {:#?}, ",tick_math::MAX_TICK);
         if TickState::check_is_out_of_boundary(tick_index) {
             if tick_index > tick_math::MAX_TICK {
                 return false;
@@ -242,8 +245,11 @@ impl TickArrayState {
                 TickArrayState::get_array_start_index(tick_math::MIN_TICK, tick_spacing);
             return tick_index == min_start_index;
         }
+        msg!("tir tir tiri");
         tick_index % TickArrayState::tick_count(tick_spacing) == 0
+        
     }
+    
 
     pub fn tick_count(tick_spacing: u16) -> i32 {
         TICK_ARRAY_SIZE * i32::from(tick_spacing)
@@ -510,6 +516,8 @@ pub fn check_tick_array_start_index(
 /// Common checks for valid tick inputs.
 ///
 pub fn check_ticks_order(tick_lower_index: i32, tick_upper_index: i32) -> Result<()> {
+    msg!("tick_lower_index {:#?}",tick_lower_index);
+    msg!("tick_upper_index {:#?}",tick_upper_index);
     require!(
         tick_lower_index < tick_upper_index,
         ErrorCode::TickInvalidOrder

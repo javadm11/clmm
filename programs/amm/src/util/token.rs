@@ -343,6 +343,8 @@ pub fn create_position_nft_mint_with_extensions<'info>(
                     None,
                     Some(position_nft_mint.key()),
                 )?;
+                msg!("dodol ix {:#?}",ix);
+                
                 solana_program::program::invoke(
                     &ix,
                     &[
@@ -370,6 +372,7 @@ pub fn create_position_nft_mint_with_extensions<'info>(
             }
         }
     }
+    msg!("ali jadidi {:#?}",position_nft_mint.to_account_info());
 
     // initialize mint account
     initialize_mint2(

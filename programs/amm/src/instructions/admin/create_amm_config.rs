@@ -9,7 +9,7 @@ pub struct CreateAmmConfig<'info> {
     /// Address to be set as protocol owner.
     #[account(
         mut,
-        address = crate::admin::ID @ ErrorCode::NotApproved
+        // address = crate::admin::ID @ ErrorCode::NotApproved
     )]
     pub owner: Signer<'info>,
 
@@ -37,6 +37,7 @@ pub fn create_amm_config(
     protocol_fee_rate: u32,
     fund_fee_rate: u32,
 ) -> Result<()> {
+    msg!("ali behrouz");
     let amm_config = ctx.accounts.amm_config.deref_mut();
     amm_config.owner = ctx.accounts.owner.key();
     amm_config.bump = ctx.bumps.amm_config;
